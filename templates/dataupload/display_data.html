@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display Data</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>Uploaded Data</h1>
+<label for="search">Search:</label>
+<input type="text" id="search">
+<button id="search-button">Search</button>
+
+<div id="search-results"></div>
+<table id="data-table">
+    <thead>
+        <tr>
+            {% for key in data.0.keys %}
+            <th>{{ key }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data %}
+        <tr>
+            {% for value in row.values %}
+            <td>{{ value }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+<script>
+    $('#search-button').on('click', function () {
+        const query = $('#search').val();
+        $.ajax({
+            url: '/search/',
+            data: { query: query },
+            success: function (response) {
+                $('#search-results').html(JSON.stringify(response.data));  // Можно улучшить отображение
+            }
+        });
+    });
+</script>
+</body>
+</html>

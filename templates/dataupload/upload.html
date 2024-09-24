@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>Upload CSV or XLSX File</h1>
+<form id="upload-form" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".csv, .xlsx" required>
+    <button type="submit">Upload</button>
+</form>
+
+<div id="display-table"></div>
+
+<script>
+    $('#upload-form').on('submit', function (e) {
+        $('#display-table').html('<img src="/media/loading.gif">');
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/',
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            start: function (){
+                console.log('START');
+            },
+            success: function (data) {
+
+                $('#display-table').html(data);  // Можно улучшить отображение
+            }
+        });
+    });
+</script>
+</body>
+</html>
